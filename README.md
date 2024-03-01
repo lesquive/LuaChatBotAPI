@@ -44,7 +44,7 @@ Este proyecto consiste en una API de chat implementada en Lua utilizando el fram
 
 ## OpenAI API
 
-Para utilizar la funcionalidad de chat, asegúrate de tener una cuenta en OpenAI y consulta la [documentación de la API de OpenAI](https://platform.openai.com/docs/api-reference/introduction) y [el uso] (https://platform.openai.com/usage) para obtener más detalles.
+Para utilizar la funcionalidad de chat, asegúrate de tener una cuenta en OpenAI y consulta la [documentación de la API de OpenAI](https://platform.openai.com/docs/api-reference/introduction) y [el uso de API](https://platform.openai.com/usage) para obtener más detalles.
 
 ## Contribuciones
 
