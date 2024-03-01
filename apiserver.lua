@@ -33,7 +33,12 @@ app.add_handler(
         -- Parse JSON from the request body
         local requestData = {
             model = "gpt-3.5-turbo",
-            messages = {{role = "user", content = cjson.decode(body).content}},
+            messages = {
+                {
+                role = "system",
+                content = "Usted es un experto en Lua Script diseñado para asistir al grupo #1 del Curso de Paradigmas de Programación. Te llamas Charley",
+              },{role = "user", content = cjson.decode(body).content}
+            },
             temperature = 0.7
         }
 

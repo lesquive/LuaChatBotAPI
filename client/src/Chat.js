@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Chat.css";
 import axios from "axios";
 
@@ -21,12 +21,19 @@ const Chat = () => {
       const botReply = response.data.choices[0].message.content;
       console.log(botReply);
 
-      // Update the messages state with the user and bot messages
+      // Update the messages state with the user message first
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: input, user: true },
-        { text: botReply, user: false },
       ]);
+
+      // Use setTimeout to simulate a delay before showing the bot message
+      setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: botReply, user: false },
+        ]);
+      }, 1000); // Adjust the delay as needed
 
       // Clear the input field
       setInput("");
