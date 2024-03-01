@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Chat.css";
 import axios from "axios";
 
 const Chat = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    // Desplazar hacia abajo cada vez que cambian los mensajes
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleInputChange = (event) => {
     setInput(event.target.value);
@@ -33,7 +39,7 @@ const Chat = () => {
           ...prevMessages,
           { text: botReply, user: false },
         ]);
-      }, 1000); // Adjust the delay as needed
+      }, 1000);
 
       // Clear the input field
       setInput("");
@@ -59,6 +65,7 @@ const Chat = () => {
             {msg.text}
           </div>
         ))}
+        <div ref={messagesEndRef}></div>
       </div>
       <div className="input-container">
         <input
@@ -66,9 +73,9 @@ const Chat = () => {
           value={input}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
-          placeholder="Type your message..."
+          placeholder="Pregunte cualquier cosa sobre Lua..."
         />
-        <button onClick={handleSendMessage}>Send</button>
+        <button onClick={handleSendMessage}>Enviar</button>
       </div>
     </div>
   );

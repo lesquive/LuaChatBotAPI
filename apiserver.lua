@@ -3,29 +3,24 @@ local http = require("socket.http")
 local ltn12 = require("ltn12")
 local cjson = require("cjson")
 
--- Your OpenAI API key
 local config = dofile("config.lua")
 local openaiApiKey = config.openaiApiKey
 
--- API endpoint
 local apiUrl = "https://api.openai.com/v1/chat/completions"
 
--- Define a handler for the OPTIONS method
 app.add_handler(
     "OPTIONS",
     "/openai",
     function(captures, query, headers, body)
 
-        -- Respond to preflight requests
         return "", {
-            ["Access-Control-Allow-Origin"] = "*", -- Allow requests from any origin
-            ["Access-Control-Allow-Methods"] = "POST, OPTIONS", -- Allow POST and OPTIONS methods
-            ["Access-Control-Allow-Headers"] = "Content-Type, Authorization" -- Allow specified headers
+            ["Access-Control-Allow-Origin"] = "*", 
+            ["Access-Control-Allow-Methods"] = "POST, OPTIONS", 
+            ["Access-Control-Allow-Headers"] = "Content-Type, Authorization" 
         }
     end
 )
 
--- Define a handler for the "/openai" endpoint
 app.add_handler(
     "POST",
     "/openai",
@@ -49,13 +44,11 @@ app.add_handler(
 
         print("RequestBB:", requestBody)
 
-        -- Request headers
         local requestHeaders = {
             ["Content-Type"] = "application/json",
             ["Authorization"] = "Bearer " .. openaiApiKey
         }
 
-        -- Perform HTTP request
         local response = {}
         local _, statusCode, _, _ = http.request{
             url = apiUrl,
@@ -65,25 +58,23 @@ app.add_handler(
             sink = ltn12.sink.table(response)
         }
 
-        -- Check the response
         if statusCode == 200 then
             print("Made it here!")
             local responseBody = table.concat(response)
             print("responseBody", responseBody)
             return responseBody, {
-                ["Access-Control-Allow-Origin"] = "*", -- Allow requests from any origin
-                ["Access-Control-Allow-Methods"] = "POST, OPTIONS", -- Allow POST and OPTIONS methods
-                ["Access-Control-Allow-Headers"] = "Content-Type, Authorization" -- Allow specified headers
+                ["Access-Control-Allow-Origin"] = "*", 
+                ["Access-Control-Allow-Methods"] = "POST, OPTIONS", 
+                ["Access-Control-Allow-Headers"] = "Content-Type, Authorization" 
             } 
         else
             return "Error", {
-                ["Access-Control-Allow-Origin"] = "*", -- Allow requests from any origin
-                ["Access-Control-Allow-Methods"] = "POST, OPTIONS", -- Allow POST and OPTIONS methods
-                ["Access-Control-Allow-Headers"] = "Content-Type, Authorization" -- Allow specified headers
+                ["Access-Control-Allow-Origin"] = "*", 
+                ["Access-Control-Allow-Methods"] = "POST, OPTIONS", 
+                ["Access-Control-Allow-Headers"] = "Content-Type, Authorization" 
             }
         end
     end
 )
 
--- Start the application
 app.start()
